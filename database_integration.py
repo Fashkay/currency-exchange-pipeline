@@ -1,57 +1,58 @@
 import psycopg2
 
+# Define database connection parameters
+dbname = "your_database_name"
+user = "your_database_user"
+password = "your_database_password"
+host = "your_database_host"
+port = "your_database_port"
+
 def create_exchange_rates_table():
-    try:
-        connection = psycopg2.connect(
-            database="your_database",
-            user="your_username",
-            password="your_password",
-            host="your_host",
-            port="your_port"
-        )
+    """
+    Create the 'exchange_rates' table in the PostgreSQL database if it does not already exist.
+    """
+    conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
+    cur = conn.cursor()
 
-        cursor = connection.cursor()
-        create_table_query = '''
-        CREATE TABLE IF NOT EXISTS exchange_rates (
-            id SERIAL PRIMARY KEY,
-            base_currency VARCHAR(3),
-            target_currency VARCHAR(3),
-            exchange_rate DECIMAL(10, 5)
-        );
-        '''
-        cursor.execute(create_table_query)
-        connection.commit()
-        cursor.close()
+    # Define the SQL query to create the table
+    create_table_query = """
+    CREATE TABLE IF NOT EXISTS exchange_rates (
+        id SERIAL PRIMARY KEY,
+        base_currency VARCHAR(3) NOT NULL,
+        target_currency VARCHAR(3) NOT NULL,
+        exchange_rate DECIMAL(10, 6) NOT NULL,
+        timestamp TIMESTAMP NOT NULL
+    );
+    """
 
-    except (Exception, psycopg2.Error) as error:
-        print(f"Error while connecting to PostgreSQL: {error}")
+    cur.execute(create_table_query)
+    conn.commit()
 
-    finally:
-        if connection:
-            connection.close()
+    cur.close()
+    conn.close()
 
 def insert_exchange_rate(base_currency, target_currency, exchange_rate):
-    try:
-        connection = psycopg2.connect(
-            database="your_database",
-            user="your_username",
-            password="your_password",
-            host="your_host",
-            port="your_port"
-        )
+    """
+    Insert exchange rate data into the 'exchange_rates' table.
 
-        cursor = connection.cursor()
-        insert_query = f'''
-        INSERT INTO exchange_rates (base_currency, target_currency, exchange_rate)
-        VALUES ('{base_currency}', '{target_currency}', {exchange_rate});
-        '''
-        cursor.execute(insert_query)
-        connection.commit()
-        cursor.close()
+    Args:
+        base_currency (str): The base currency for conversion.
+        target_currency (str): The target currency for which the exchange rate is requested.
+        exchange_rate (float): The normalized exchange rate.
+    """
+    conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
+    cur = conn.cursor()
 
-    except (Exception, psycopg2.Error) as error:
-        print(f"Error while connecting to PostgreSQL: {error}")
+    # Define the SQL query to insert data
+    insert_query = """
+    INSERT INTO exchange_rates (base_currency, target_currency, exchange_rate, timestamp)
+    VALUES (%s, %s, %s, NOW());
+    """
 
-    finally:
-        if connection:
-            connection.close()
+    # Provide values for the query
+    data = (base_currency, target_currency, exchange_rate)
+    cur.execute(insert_query, data)
+    conn.commit()
+
+    cur.close()
+    conn.close()
