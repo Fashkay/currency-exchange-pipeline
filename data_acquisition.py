@@ -1,20 +1,15 @@
 import requests
 
 def get_exchange_rate(base_currency, target_currency, api_key):
-    url = 'https://api.exchangeratesapi.io/v1/'
-    params = {
-        'base_currency': USD,
-        'target_currency': EUR,
-        'api_key': 940a8603fffdd49ac7d242bc35b6f3bf
-    }
+    url = f"https://api.exchangeratesapi.io/v1/latest?base={base_currency}&symbols={target_currency}"
+    headers = {"Authorization": f"Bearer {api_key}"}
 
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
         data = response.json()
-        return data['exchange_rate']
-    else:
-        print(f"Error: Unable to fetch exchange rate. Status code: {response.status_code}")
+        exchange_rate = data['rates'][target_currency]
+        return exchange_rate
+    except requests.exceptions.RequestException as e:
+        print(f"Error: Unable to fetch data. {e}")
         return None
-
-
