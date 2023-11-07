@@ -1,24 +1,25 @@
 import requests
 
-def get_exchange_rate(base_currency, target_currency, api_key):
+def get_exchange_rate(api_key, base_currency, target_currency):
     """
-    Get the exchange rate from the API.
+    Get the exchange rate from the Open Exchange Rates API.
 
     Args:
+        api_key (str): Your API key for authentication.
         base_currency (str): The base currency for conversion.
         target_currency (str): The target currency for which the exchange rate is requested.
-        api_key (str): The API key for authentication.
 
     Returns:
         float: The exchange rate.
     """
-    base_url = "https://api.exchangeratesapi.io/v1/latest"
-    api_request_url = f"{base_url}?base={base_currency}&symbols={target_currency}"
-    headers = {
-        "Authorization": f"Bearer {api_key}"
+    base_url = "https://openexchangerates.org/api/latest.json"
+    params = {
+        "app_id": api_key,
+        "base": base_currency,
+        "symbols": target_currency
     }
 
-    response = requests.get(api_request_url, headers=headers)
+    response = requests.get(base_url, params=params)
 
     if response.status_code == 200:
         return response.json()["rates"][target_currency]
