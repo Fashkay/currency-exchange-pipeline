@@ -4,7 +4,7 @@
 
 The Currency Exchange Rate Data Acquisition Pipeline interacts with the API using the following base URL:
 
-https://api.exchangeratesapi.io/v1/latest
+https://openexchangerates.org/api/latest.json
 
 
 ## Supported Parameters
@@ -17,4 +17,4 @@ The API supports the following parameters:
 Example API Request:
 
 
-https://api.exchangeratesapi.io/v1/latest?base=USD&symbols=EUR,GBP
+https://openexchangerates.org/api/latest.json?base=USD&symbols=EUR,GBP

@@ -1,12 +1,12 @@
 # Acquiring Data via API
 
-The process of acquiring data via an API is a critical step in the Data Acquisition and Preprocessing Pipeline. In this project, we utilize the [Exchange Rates API](https://api.exchangeratesapi.io/v1/latest) to obtain currency exchange rate data.
+The process of acquiring data via an API is a critical step in the Data Acquisition and Preprocessing Pipeline. In this project, we utilize the [Exchange Rates API](https://openexchangerates.org/api/latest.json) to obtain currency exchange rate data.
 
 ## API Endpoint
 
 The API endpoint used in this project is:
 
-- Endpoint: `https://api.exchangeratesapi.io/v1/latest`
+- Endpoint: `https://openexchangerates.org/api/latest.json`
 
 This endpoint provides access to the latest exchange rates for various currencies.
 
@@ -31,8 +31,8 @@ We use the `requests` library in Python to send an HTTP GET request to the API e
 import requests
 
 # Define API parameters
-base_url = "https://api.exchangeratesapi.io/v1/latest"
-api_key = "940a8603fffdd49ac7d242bc35b6f3bf"
+base_url = "https://openexchangerates.org/api/latest.json"
+api_key = "08b645705f5343e691c1ee0f05661bde"
 base_currency = "USD"
 target_currency = "EUR"
 

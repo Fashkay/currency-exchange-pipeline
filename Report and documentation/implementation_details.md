@@ -4,10 +4,10 @@ This section provides an in-depth overview of the implementation details of the 
 
 ## Data Acquisition
 
-The data acquisition process involves retrieving currency exchange rate data from the [Exchange Rates API](https://api.exchangeratesapi.io/v1/latest) using a Python script. The following steps outline the implementation:
+The data acquisition process involves retrieving currency exchange rate data from the [Exchange Rates API](https://openexchangerates.org/api/latest.json) using a Python script. The following steps outline the implementation:
 
 1. **API Endpoint and Parameters**:
-   - The API endpoint `https://api.exchangeratesapi.io/v1/latest` is used to fetch the latest exchange rates.
+   - The API endpoint `https://openexchangerates.org/api/latest.json` is used to fetch the latest exchange rates.
    - The base currency is set to USD, and the target currency is set to EUR.
 
 2. **Authentication**:
